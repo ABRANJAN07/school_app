@@ -24,6 +24,22 @@ modules:
     requires:
       - name: school_app-auth
 
+  - name: school_app
+    type: approuter.nodejs
+    path: app/ # from cds.env.folders. Consider also cds.env.build.target -> gen/app
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: school_app-auth
+
 resources:
   - name: school_app-auth
     type: org.cloudfoundry.managed-service
@@ -32,5 +48,5 @@ resources:
       service-plan: application
       path: ./xs-security.json
       config:
-        xsappname: school_app-${org}-${space}
+        xsappname: school_app
         tenant-mode: dedicated

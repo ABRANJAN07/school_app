@@ -1,8 +1,9 @@
 using { school, sap.common } from '../db/data-model';
 
 
-service StudentService @(requires:'authenticated-user'){
+service StudentService {
 
+  @(requires:'authenticated-user')
   @readonly entity Courses as projection on school.Courses;
  
   entity Enrollments as projection on school.Enrollments;
